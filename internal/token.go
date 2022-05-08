@@ -229,6 +229,7 @@ func RetrieveToken(ctx context.Context, clientID, clientSecret, tokenURL string,
 }
 
 func doTokenRoundTrip(ctx context.Context, req *http.Request) (*Token, error) {
+	req.Close = true // Prevent connection from being reused.
 	r, err := ctxhttp.Do(ctx, ContextClient(ctx), req)
 	if err != nil {
 		return nil, err
